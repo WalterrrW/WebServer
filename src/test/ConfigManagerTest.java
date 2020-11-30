@@ -1,34 +1,74 @@
 package test;
 
+import exceptions.UsedPortException;
+import org.junit.Assert;
 import org.junit.Test;
 
-import exceptions.ConfigNotInitializedException;
 import exceptions.GivenParameterNotExistingException;
-import exceptions.UnreachablePortException;
-import src.Config;
+import exceptions.PortOutOfBoundException;
 import src.ConfigManager;
+import src.Configuration;
+
+import static org.junit.Assert.assertEquals;
 
 public class ConfigManagerTest {
 
-	private ConfigManager configManager = new ConfigManager(new Config());
-	
-	@Test(expected = UnreachablePortException.class)
-	public void setPortOutOfRangeTest() {
-		configManager.setPort(6700);
+	private ConfigManager configManager = new ConfigManager(new Configuration());
+
+	@Test(expected = PortOutOfBoundException.class)
+	public void setPortOutOfRangeTest() throws  PortOutOfBoundException, UsedPortException{
+		configManager.setPort(66000);
 	}
-	
-	@Test(expected = UnreachablePortException.class)
-	public void setUsedPortTest() {
-		configManager.setPort(13);
+
+	@Test
+	public void setCorrectPortTest() throws  PortOutOfBoundException, UsedPortException{
+		configManager.setPort(80);
+		assertEquals(80, configManager.getPort());
+	}
+
+	public void checkDefaultPort() throws  PortOutOfBoundException, UsedPortException{
+		assertEquals(8080, configManager.getPort());
+	}
+
+//	@Test(expected = UsedPortException.class)
+//	public void setUsedPort() throws  PortOutOfBoundException, UsedPortException{
+//		configManager.setPort(7);
+//	}
+
+
+	@Test(expected = GivenParameterNotExistingException.class)
+	public void NotSupportedPageDoesNotExistTest() throws GivenParameterNotExistingException{
+		configManager.setNotSuportedPage("not_supportedd.html");
+	}
+	@Test
+	public void NotSupportedPageDoesExistTest() throws GivenParameterNotExistingException{
+		configManager.setNotSuportedPage("not_supported.html");
+		Assert.assertEquals("not_supported.html", configManager.getNotSuportedPage());
 	}
 
 	@Test(expected = GivenParameterNotExistingException.class)
-	public void rootDirectoryDoesNotExistTest() {
-		configManager.setRootDirectory("BlueLagoon");
+	public void webRootDoesNotExistTest() throws GivenParameterNotExistingException{
+		configManager.setWebRootFile("wwww");
 	}
-	
+
 	@Test(expected = GivenParameterNotExistingException.class)
-	public void configFileDoesNotExistTest() {
-		configManager.setConfigFile("BlueWhaleConfig.txt");
+	public void indexDoesNotExistTest() throws GivenParameterNotExistingException{
+		configManager.setDefaultPage("indexx.html");
 	}
+	@Test
+	public void indexDoesExistTest() throws GivenParameterNotExistingException{
+		configManager.setDefaultPage("index.html");
+		Assert.assertEquals("index.html", configManager.getDefaultPage());
+	}
+
+	@Test(expected = GivenParameterNotExistingException.class)
+	public void notFoundPageDoesNotExistTest() throws GivenParameterNotExistingException{
+		configManager.setFileNotFoundPage("4044.html");
+	}
+	@Test
+	public void NotFOundPageDoesExistTest() throws GivenParameterNotExistingException{
+		configManager.setFileNotFoundPage("404.html");
+		Assert.assertEquals("404.html", configManager.getNotFoundPage());
+	}
+
 }
