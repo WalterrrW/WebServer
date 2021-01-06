@@ -22,7 +22,6 @@ public class BaseSeleniumTest {
 		System.setProperty("webdriver.chrome.driver","C:\\Users\\WalterSipos\\Downloads\\chromedriver.exe");
 		driver = new ChromeDriver();
 		baseFrame = new WebServerSetup();
-		baseFrame.btnNewButton.doClick();
 	}
 	
 	@After
@@ -35,17 +34,25 @@ public class BaseSeleniumTest {
 	}
 
 	@Test
-	public void TestBasePage() {
+	public void testBasePage() {
+		baseFrame.btnNewButton.doClick();
 		driver.get("http://localhost:8080/");
 		assertEquals("Index", driver.getTitle());
 	}
 
 	@Test
-	public void TestElementsFromTestPage() {
+	public void testNotFOundPage() {
+		baseFrame.btnNewButton.doClick();
 		driver.get("http://localhost:8080/dsa");
-		System.out.println(driver.getTitle());
 		assertEquals("NotFound", driver.getTitle());
 	}
 	
-	
+	@Test
+	public void testMainatanancePage() {
+		baseFrame.maintananceServer.doClick();
+		baseFrame.btnNewButton.doClick();
+		driver.get("http://localhost:8080/");
+		assertEquals("Maintanance", driver.getTitle());
+	}
+		
 }
