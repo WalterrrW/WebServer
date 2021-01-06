@@ -30,11 +30,6 @@ public class ConfigManagerTest {
 		assertEquals(8080, configManager.getPort());
 	}
 
-//	@Test(expected = UsedPortException.class)
-//	public void setUsedPort() throws  PortOutOfBoundException, UsedPortException{
-//		configManager.setPort(7);
-//	}
-
 
 	@Test(expected = GivenParameterNotExistingException.class)
 	public void NotSupportedPageDoesNotExistTest() throws GivenParameterNotExistingException{

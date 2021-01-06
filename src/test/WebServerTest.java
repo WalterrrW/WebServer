@@ -1,18 +1,25 @@
 package test;
 
-//import static javax.print.attribute.TextSyntax.verify;
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import exceptions.GivenParameterNotExistingException;
+import src.ConfigManager;
+import src.Configuration;
+import src.MyWebServer;
+
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.PrintStream;
+import java.net.HttpURLConnection;
+import java.net.ServerSocket;
+import java.net.URL;
+import java.util.Date;
 import java.util.Scanner;
 
 import static org.junit.Assert.assertEquals;
-
-//import static org.Mock.*;
-
 
 
 public class WebServerTest {
@@ -24,11 +31,14 @@ public class WebServerTest {
 	private final ByteArrayOutputStream errContent = new ByteArrayOutputStream();
 	private final PrintStream originalOut = System.out;
 	private final PrintStream originalErr = System.err;
+	
+	private ConfigManager configManager;
+	private final int PORT = 8080;
 
 	@Before
-	public void setUpStreams() {
-	    System.setOut(new PrintStream(outContent));
-	    System.setErr(new PrintStream(errContent));
+	public void setUpStreams() throws IOException {
+		 configManager = new ConfigManager(new Configuration());
+
 	}
 
 	@After
@@ -40,64 +50,46 @@ public class WebServerTest {
 
 	@Test
 	public void AcceptFailureTest() {
-		/*find a way to make socket.accept() to fail...*/
-	    System.err.print("Accept failed.");
-	    assertEquals("Accept failed.", errContent.toString());
+		ConfigManager configManager = new ConfigManager(new Configuration());
+		
+		ServerSocket serverConnect = null;
+		ServerSocket serverConnect2 = null;
+		String ex = "";
+		try {
+			serverConnect = new ServerSocket(configManager.getPort());
+		
+			serverConnect2 = new ServerSocket(configManager.getPort());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			System.out.println(e.toString());
+			ex = e.toString();
+		}
+		
+		assertEquals("java.net.BindException: Address already in use: bind", ex);
+		
 	}
-
+	
 	@Test
-	public void couldNotListenOnPortTest() {
-		/*run 2 webservers, resulting the 2nd to have the error 'port 10008 already used'*/
-	    System.err.print("Could not listen on port: 10008.");
-	    assertEquals("Could not listen on port: 10008.", errContent.toString());
+	public void setStoppedState() throws GivenParameterNotExistingException{
+		configManager.setState("Stopped");
+		Assert.assertEquals("Stopped", configManager.getState());
 	}
-
 	@Test
-	public void cannotClosePortTest() {
-		/*find solution to fail the Socket Close*/
-	    System.err.print("Could not close port: 10008.");
-	    assertEquals("Could not close port: 10008.", errContent.toString());
+	public void setRunningState() throws GivenParameterNotExistingException{
+		configManager.setState("Running");
+		Assert.assertEquals("Running", configManager.getState());
+	}
+	@Test
+	public void setMaintainanceState() throws GivenParameterNotExistingException{
+		configManager.setState("Maintanance");
+		Assert.assertEquals("Maintanance", configManager.getState());
+	}
+	@Test
+	public void setWrongState() throws GivenParameterNotExistingException{
+		configManager.setState("test");
+		Assert.assertEquals("Stopped", configManager.getState());
 	}
 
-	/*try to test webServer for behaviour when there are manny requests in a small time interval*/
-//	@Test
-//	public void mannyRequestSendedTest() {
-//		HttpURLConnection connection = null;
-//		try {
-//		for(int i=0; i<10; i++) {
-//			 URL url = new URL("http://127.0.0.1:8080");
-//	         connection = (HttpURLConnection) url.openConnection();
-//		}
-//		}catch(IOException e) {
-//			fail();
-//		}
-//	}
 
-//    @Test
-//    public void testHttpRequest() throws IOException {
-//	    ConfigManager configManager = new ConfigManager(new Configuration());
-//        ServerSocket serverConnect = new ServerSocket(configManager.getPort());
-//        MyWebServer myWebServer = new MyWebServer(serverConnect.accept(),  configManager);
-        // verify after httpRequest
-//}
 
-//    @Test
-//    public void requestTest() {
-//        HttpURLConnection connection = null;
-//        try {
-//                URL url = new URL("http://127.0.0.1:8080");
-//                connection = (HttpURLConnection) url.openConnection();
-//                connection.setRequestMethod("GET");
-//                System.out.println(connection.getInputStream());
-//        }catch(IOException e) {
-//            System.out.println("failed");
-//        }
-//    }
-//
-//    @Test
-//    public void inputtest() throws Exception {
-//
-//        WebServerManager.main(null);
-//
-//    }
 }

@@ -1,12 +1,12 @@
 #FindBugs User Preferences
-#Mon Nov 30 21:26:10 EET 2020
+#Tue Jan 05 10:48:46 EET 2021
 detectorExplicitSerialization=ExplicitSerialization|true
 detectorMultithreadedInstanceAccess=MultithreadedInstanceAccess|true
 detectorConfusionBetweenInheritedAndOuterMethod=ConfusionBetweenInheritedAndOuterMethod|true
 detectorWrongMapIterator=WrongMapIterator|true
 detectorUnnecessaryMath=UnnecessaryMath|true
 detectorUselessSubclassMethod=UselessSubclassMethod|false
-filter_settings=Low|BAD_PRACTICE,CORRECTNESS,EXPERIMENTAL,I18N,MALICIOUS_CODE,MT_CORRECTNESS,PERFORMANCE,SECURITY,STYLE|false|20
+filter_settings=High|BAD_PRACTICE,CORRECTNESS,EXPERIMENTAL,I18N,MALICIOUS_CODE,MT_CORRECTNESS,PERFORMANCE,SECURITY,STYLE|false|20
 detectorURLProblems=URLProblems|true
 detectorIteratorIdioms=IteratorIdioms|true
 detectorMutableEnum=MutableEnum|true
@@ -111,7 +111,7 @@ detectorOptionalReturnNull=OptionalReturnNull|true
 detectorStartInConstructor=StartInConstructor|true
 detectorFindUnsatisfiedObligation=FindUnsatisfiedObligation|true
 detectorRedundantConditions=RedundantConditions|true
-effort=default
+effort=max
 detectorRedundantInterfaces=RedundantInterfaces|true
 detectorDuplicateBranches=DuplicateBranches|true
 detectorCheckTypeQualifiers=CheckTypeQualifiers|true
@@ -138,6 +138,6 @@ detectorFindPuzzlers=FindPuzzlers|true
 detectorCallToUnsupportedMethod=CallToUnsupportedMethod|false
 detectorSuperfluousInstanceOf=SuperfluousInstanceOf|true
 detectorReadReturnShouldBeChecked=ReadReturnShouldBeChecked|true
-detector_threshold=3
+detector_threshold=1
 detectorPublicSemaphores=PublicSemaphores|false
 detectorDumbMethods=DumbMethods|true

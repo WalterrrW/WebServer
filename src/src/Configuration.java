@@ -7,8 +7,10 @@ public class Configuration {
     private String defaultFile = "index.html";
     private String fileNotFound = "404.html";
     private String methodNotSupported = "not_supported.html";
+    private String mantanancePage = "./www/maintanance.html";
     // port to listen connection
-    private int port = 8080;
+    private  int port = 8080;
+    private String state = "Stopped";
 
     // verbose mode
     static boolean verbose = true;
@@ -42,5 +44,26 @@ public class Configuration {
     }
     public void setNotSuportedPage(String methodNotSupported){
         this.methodNotSupported = methodNotSupported;
+    }
+    public String getMaintanancePage(){
+        return mantanancePage;
+    }
+    public void setMaintanancePage(String mantanancePage){
+        this.mantanancePage = mantanancePage;
+    }
+    public String getState(){
+        return state;
+    }
+    public boolean setState(String state){
+    	if(state.equals("Stopped")) {
+    		this.state = state;
+    	} else if(state.equals("Running")) {
+    		this.state = state;
+    	} else if(state.equals("Maintanance")) {
+    		this.state = state;
+    	} else {
+    		return false;
+    	}
+        return true;
     }
 }
